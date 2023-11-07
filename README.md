@@ -5,5 +5,5 @@
 Download here: ~will add download link as soon as it become available~
 
 <p align="center">
-  <img src="https://i.imgur.com/EC5sfjm.png" alt="BMI Result" height="85.93%" width="33.61%""/>
+  <img src="https://i.imgur.com/jsOofJs.png" alt="Raid blocker" height="70%" width="70%""/>
 </p>
