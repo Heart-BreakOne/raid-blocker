@@ -41,7 +41,7 @@ function getRaidStatus() {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError);
       } else {
-        resolve(result.raid || false);
+        resolve(result.raid !== undefined ? result.raid : true);
       }
     });
   });
