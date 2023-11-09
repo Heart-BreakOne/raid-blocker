@@ -63,7 +63,6 @@ async function handleMutations(mutations) {
   };
   mutations.forEach(function (mutation) {
     mutation.addedNodes.forEach(function (node) {
-      console.log(node)
       if (node.nodeType === Node.ELEMENT_NODE && node.dataset.testSelector === 'raid-banner') {
         if (state === on) {
           const leaveButton = node.querySelector('[data-a-target="tw-core-button-label-text"]');
@@ -77,4 +76,4 @@ async function handleMutations(mutations) {
 }
 
 const observer = new MutationObserver(handleMutations);
-observer.observe(document, { subtree: true, childList: true });
+observer.observe(document, { attributes: true, subtree: true, childList: true });
