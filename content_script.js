@@ -1,6 +1,7 @@
 let state;
 const on = "ON";
 const off = "OFF";
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 window.addEventListener('load', async function () {
   const navBar = document.querySelector(".Layout-sc-1xcs6mc-0.jdpzyl");
@@ -18,7 +19,6 @@ window.addEventListener('load', async function () {
     navBar.insertBefore(blockButton, navBar.firstChild);
   }
 });
-
 
 document.addEventListener("click", async function (event) {
   if (event.target.classList.contains("block_button")) {
@@ -55,15 +55,15 @@ function getRaidStatus() {
 
 //Mutator observer
 async function handleMutations(mutations) {
-  //const status = await getRaidStatus()
   try {
     state = document.querySelector(".block_button").textContent;
   } catch (error) {
     return;
   };
   mutations.forEach(function (mutation) {
-    mutation.addedNodes.forEach(function (node) {
-      if (node.nodeType === Node.ELEMENT_NODE && node.dataset.testSelector === 'raid-banner') {
+    mutation.addedNodes.forEach(async function (node) {
+      if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains("dUREKt")) {
+        await delay(8000);
         if (state === on) {
           const leaveButton = node.querySelector('[data-a-target="tw-core-button-label-text"]');
           if (leaveButton) {
@@ -77,4 +77,3 @@ async function handleMutations(mutations) {
 
 const observer = new MutationObserver(handleMutations);
 observer.observe(document, { attributes: true, subtree: true, childList: true });
-observer.observe(document, { subtree: true, childList: true });
