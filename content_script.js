@@ -77,3 +77,4 @@ async function handleMutations(mutations) {
 
 const observer = new MutationObserver(handleMutations);
 observer.observe(document, { attributes: true, subtree: true, childList: true });
+observer.observe(document, { subtree: true, childList: true });
