@@ -1,29 +1,35 @@
-window.addEventListener('load', function () {
+let state;
+const on = "ON";
+const off = "OFF";
+
+window.addEventListener('load', async function () {
   const navBar = document.querySelector(".Layout-sc-1xcs6mc-0.jdpzyl");
   let blockButton = document.querySelector(".block_button");
   if (!blockButton) {
     blockButton = document.createElement("button");
     blockButton.className = "block_button";
-    blockButton.textContent = "ON"
+    state = await getRaidStatus();
+    if (state || state == undefined) {
+      blockButton.textContent = on;
+    } else {
+      blockButton.textContent = off;
+    }
     blockButton.style.fontWeight = "bold";
-
     navBar.insertBefore(blockButton, navBar.firstChild);
   }
 });
 
 
-
-document.addEventListener("click", function (event) {
+document.addEventListener("click", async function (event) {
   if (event.target.classList.contains("block_button")) {
     let button = event.target;
-    if (button.textContent == "OFF") {
-      //Set block to on
-      button.textContent = "ON";
-      setRaidStatus(true)
+    state = await getRaidStatus();
+    if (!state && state != undefined) {
+      button.textContent = on;
+      setRaidStatus(true);
     } else {
-      //Set block to false
-      button.textContent = "OFF";
-      setRaidStatus(false)
+      button.textContent = off;
+      setRaidStatus(false);
     }
   }
 });
@@ -41,7 +47,7 @@ function getRaidStatus() {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError);
       } else {
-        resolve(result.raid !== undefined ? result.raid : true);
+        resolve(result.raid);
       }
     });
   });
@@ -49,12 +55,17 @@ function getRaidStatus() {
 
 //Mutator observer
 async function handleMutations(mutations) {
-  const status = await getRaidStatus()
+  //const status = await getRaidStatus()
+  try {
+    state = document.querySelector(".block_button").textContent;
+  } catch (error) {
+    return;
+  };
   mutations.forEach(function (mutation) {
     mutation.addedNodes.forEach(function (node) {
       console.log(node)
       if (node.nodeType === Node.ELEMENT_NODE && node.dataset.testSelector === 'raid-banner') {
-        if (status) {
+        if (state === on) {
           const leaveButton = node.querySelector('[data-a-target="tw-core-button-label-text"]');
           if (leaveButton) {
             leaveButton.click();
