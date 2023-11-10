@@ -78,7 +78,7 @@ async function handleMutations(mutations) {
       //Checks if raid banner exists among the new elements
       if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains("dUREKt")) {
         //Waits 8 seconds to ensure the LEAVE raid button loads, then check the current state of the button
-        await delay(8000);
+        await delay(5000);
         if (state === on) {
           //Initializes leaveButton with the abandon raid button of interest then clicks it.
           const leaveButton = node.querySelector('[data-a-target="tw-core-button-label-text"]');
